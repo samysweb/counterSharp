@@ -12,6 +12,7 @@ class Config:
 		# Name of internal assume and assert variables
 		parser.add_argument('--assertMissVar', dest='assertMissVar', action='store',nargs=1,default='__counterSharp_assertMiss',required=False)
 		parser.add_argument('--assumeMissVar', dest='assumeMissVar', action='store',nargs=1,default='__counterSharp_assumeMiss',required=False)
+		parser.add_argument('--assertFunction', dest='assertFunction', action='store',nargs=1,default='__counterSharp_assert',required=False)
 
 		# C Input Files
 		parser.add_argument('inputfiles', nargs='*',)
@@ -23,6 +24,7 @@ class Config:
 		
 		self.assertMissVar = args.assertMissVar
 		self.assumeMissVar = args.assumeMissVar
+		self.assertFunction = args.assertFunction
 
 		self.inputFiles = args.inputfiles
 		if self.debug:

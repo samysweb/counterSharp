@@ -1,9 +1,13 @@
+import logging
+
 from pycparser import c_ast
 
 from .TransformVisitor import TransformVisitor
 
+logger = logging.getLogger(__name__)
+
 class GlobalVarTransformVisitor(TransformVisitor):
-	def visit_FileAST(self, node):
+	def visit_FileAST(self, node, parents):
 		node.ext.insert(0,
 			c_ast.Decl(
 				self.config.assertMissVar,

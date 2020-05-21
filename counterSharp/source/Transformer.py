@@ -2,7 +2,7 @@ import logging
 import pycparser
 import os
 
-from .transforms import GlobalVarTransformVisitor
+from .transforms import GlobalVarTransformVisitor, AssertTransformVisitor
 
 logger = logging.getLogger(__name__)
 
@@ -30,4 +30,5 @@ class Transformer:
 		for Transformation in Transformer.sourceTransformations:
 			t = Transformation(self.config)
 			t.visit(self.ast)
+		self.ast.show(showcoord=True)
 		

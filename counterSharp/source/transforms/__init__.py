@@ -1,1 +1,2 @@
 from .GlobalVarTransformVisitor import GlobalVarTransformVisitor
+from .AssertTransformVisitor import AssertTransformVisitor
