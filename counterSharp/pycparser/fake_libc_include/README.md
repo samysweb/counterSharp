@@ -1,0 +1,1 @@
+Copied from https://github.com/eliben/pycparser/tree/master/utils/fake_libc_include
