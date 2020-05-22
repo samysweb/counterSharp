@@ -2,7 +2,7 @@ import logging
 import pycparser
 import os
 
-from .transforms import GlobalVarTransformVisitor, AssertTransformVisitor
+from .transforms import GlobalVarTransformVisitor
 
 logger = logging.getLogger(__name__)
 
