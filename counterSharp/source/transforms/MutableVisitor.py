@@ -30,6 +30,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.dim=res
 		parents.pop()
+		return None
 
 	def visit_ArrayRef(self, node, parents):
 		parents.append(node)
@@ -40,6 +41,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.subscript=res
 		parents.pop()
+		return None
 
 	def visit_Assignment(self, node, parents):
 		parents.append(node)
@@ -50,6 +52,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.rvalue=res
 		parents.pop()
+		return None
 
 	def visit_BinaryOp(self, node, parents):
 		parents.append(node)
@@ -60,6 +63,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.right=res
 		parents.pop()
+		return None
 
 	def visit_Case(self, node, parents):
 		parents.append(node)
@@ -72,6 +76,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.stmts[i]=res
 		parents.pop()
+		return None
 
 	def visit_Cast(self, node, parents):
 		parents.append(node)
@@ -82,6 +87,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.expr=res
 		parents.pop()
+		return None
 
 	def visit_Compound(self, node, parents):
 		parents.append(node)
@@ -91,6 +97,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.block_items[i]=res
 		parents.pop()
+		return None
 
 	def visit_CompoundLiteral(self, node, parents):
 		parents.append(node)
@@ -101,6 +108,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.init=res
 		parents.pop()
+		return None
 
 	def visit_Decl(self, node, parents):
 		parents.append(node)
@@ -114,6 +122,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.bitsize=res
 		parents.pop()
+		return None
 
 	def visit_DeclList(self, node, parents):
 		parents.append(node)
@@ -123,6 +132,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.decls[i]=res
 		parents.pop()
+		return None
 
 	def visit_Default(self, node, parents):
 		parents.append(node)
@@ -132,6 +142,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.stmts[i]=res
 		parents.pop()
+		return None
 
 	def visit_DoWhile(self, node, parents):
 		parents.append(node)
@@ -142,6 +153,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.stmt=res
 		parents.pop()
+		return None
 
 	def visit_Enum(self, node, parents):
 		parents.append(node)
@@ -149,6 +161,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.values=res
 		parents.pop()
+		return None
 
 	def visit_Enumerator(self, node, parents):
 		parents.append(node)
@@ -156,6 +169,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.value=res
 		parents.pop()
+		return None
 
 	def visit_EnumeratorList(self, node, parents):
 		parents.append(node)
@@ -165,6 +179,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.enumerators[i]=res
 		parents.pop()
+		return None
 
 	def visit_ExprList(self, node, parents):
 		parents.append(node)
@@ -174,6 +189,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.exprs[i]=res
 		parents.pop()
+		return None
 
 	def visit_FileAST(self, node, parents):
 		parents.append(node)
@@ -183,6 +199,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.ext[i]=res
 		parents.pop()
+		return None
 
 	def visit_For(self, node, parents):
 		parents.append(node)
@@ -199,6 +216,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.stmt=res
 		parents.pop()
+		return None
 
 	def visit_FuncCall(self, node, parents):
 		parents.append(node)
@@ -209,6 +227,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.args=res
 		parents.pop()
+		return None
 
 	def visit_FuncDecl(self, node, parents):
 		parents.append(node)
@@ -219,6 +238,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.type=res
 		parents.pop()
+		return None
 
 	def visit_FuncDef(self, node, parents):
 		parents.append(node)
@@ -234,6 +254,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.param_decls[i]=res
 		parents.pop()
+		return None
 
 	def visit_If(self, node, parents):
 		parents.append(node)
@@ -247,6 +268,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.iffalse=res
 		parents.pop()
+		return None
 
 	def visit_InitList(self, node, parents):
 		parents.append(node)
@@ -256,6 +278,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.exprs[i]=res
 		parents.pop()
+		return None
 
 	def visit_Label(self, node, parents):
 		parents.append(node)
@@ -263,6 +286,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.stmt=res
 		parents.pop()
+		return None
 
 	def visit_NamedInitializer(self, node, parents):
 		parents.append(node)
@@ -275,6 +299,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.name[i]=res
 		parents.pop()
+		return None
 
 	def visit_ParamList(self, node, parents):
 		parents.append(node)
@@ -284,6 +309,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.params[i]=res
 		parents.pop()
+		return None
 
 	def visit_PtrDecl(self, node, parents):
 		parents.append(node)
@@ -291,6 +317,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.type=res
 		parents.pop()
+		return None
 
 	def visit_Return(self, node, parents):
 		parents.append(node)
@@ -298,6 +325,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.expr=res
 		parents.pop()
+		return None
 
 	def visit_Struct(self, node, parents):
 		parents.append(node)
@@ -307,6 +335,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.decls[i]=res
 		parents.pop()
+		return None
 
 	def visit_StructRef(self, node, parents):
 		parents.append(node)
@@ -317,6 +346,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.field=res
 		parents.pop()
+		return None
 
 	def visit_Switch(self, node, parents):
 		parents.append(node)
@@ -327,6 +357,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.stmt=res
 		parents.pop()
+		return None
 
 	def visit_TernaryOp(self, node, parents):
 		parents.append(node)
@@ -340,6 +371,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.iffalse=res
 		parents.pop()
+		return None
 
 	def visit_TypeDecl(self, node, parents):
 		parents.append(node)
@@ -347,6 +379,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.type=res
 		parents.pop()
+		return None
 
 	def visit_Typedef(self, node, parents):
 		parents.append(node)
@@ -354,6 +387,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.type=res
 		parents.pop()
+		return None
 
 	def visit_Typename(self, node, parents):
 		parents.append(node)
@@ -361,6 +395,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.type=res
 		parents.pop()
+		return None
 
 	def visit_UnaryOp(self, node, parents):
 		parents.append(node)
@@ -368,6 +403,7 @@ class MutableVisitor(object):
 		if res is not None:
 			node.expr=res
 		parents.pop()
+		return None
 
 	def visit_Union(self, node, parents):
 		parents.append(node)
@@ -377,6 +413,7 @@ class MutableVisitor(object):
 				if res is not None:
 					node.decls[i]=res
 		parents.pop()
+		return None
 
 	def visit_While(self, node, parents):
 		parents.append(node)
@@ -387,31 +424,31 @@ class MutableVisitor(object):
 		if res is not None:
 			node.stmt=res
 		parents.pop()
+		return None
 	
 	def visit_Break(self, node, parents):
-		return
+		return None
 
 	def visit_Constant(self, node, parents):
-		return
-	
+		return None
+
 	def visit_Continue(self, node, parents):
-		parents.append(node)
-		return
-	
+		return None
+
 	def visit_EllipsisParam(self, node, parents):
-		return
-	
+		return None
+
 	def visit_EmptyStatement(self, node, parents):
-		return
-	
+		return None
+
 	def visit_Goto(self, node, parents):
-		return
-	
+		return None
+
 	def visit_ID(self, node, parents):
-		return
-	
+		return None
+
 	def visit_IdentifierType(self, node, parents):
-		return
-	
+		return None
+
 	def visit_Pragma(self, node, parents):
-		return
+		return None

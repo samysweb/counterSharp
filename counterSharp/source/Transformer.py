@@ -2,7 +2,7 @@ import logging
 import pycparser
 import os
 
-from .transforms import GlobalVarTransformVisitor
+from .transforms import GlobalVarTransformVisitor, AssertTransformVisitor
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,8 @@ Source Code transformation of
 """
 class Transformer:
 	sourceTransformations = [
-		GlobalVarTransformVisitor
+		GlobalVarTransformVisitor,
+		AssertTransformVisitor
 	]
 
 	def __init__(self, configParam, inputFileParam):
