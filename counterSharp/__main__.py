@@ -2,8 +2,8 @@ import logging
 from pycparser import c_parser
 import sys
 
-from source import SourceManager
-from util import Config
+from .source import SourceManager
+from .util import Config
 
 logger = logging.getLogger(__name__)
 
