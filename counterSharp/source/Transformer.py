@@ -4,7 +4,7 @@ import os
 
 from pycparser import c_generator
 
-from .transforms import GlobalVarTransformVisitor, AssertTransformVisitor
+from .transforms import GlobalVarTransformVisitor, AssertTransformVisitor, AssumeTransformVisitor
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,8 @@ Source Code transformation of
 class Transformer:
 	sourceTransformations = [
 		GlobalVarTransformVisitor,
-		AssertTransformVisitor
+		AssertTransformVisitor,
+		AssumeTransformVisitor
 	]
 
 	def __init__(self, configParam, inputFileParam):
