@@ -13,7 +13,7 @@ class GlobalVarTransformVisitor(TransformVisitor):
 				self.config.assertMissVar,
 				[], [], [],
 				c_ast.TypeDecl(self.config.assertMissVar, [], c_ast.IdentifierType(['char'])),
-				c_ast.Constant('char','\0'),
+				c_ast.Constant('int',"0"),
 				None,
 				coord=GlobalVarTransformVisitor.TransformCoord)
 		)
@@ -23,7 +23,7 @@ class GlobalVarTransformVisitor(TransformVisitor):
 				self.config.assumeMissVar,
 				[], [], [],
 				c_ast.TypeDecl(self.config.assumeMissVar, [], c_ast.IdentifierType(['char'])),
-				c_ast.Constant('char','\0'),
+				c_ast.Constant('int',"0"),
 				None,
 				coord=GlobalVarTransformVisitor.TransformCoord)
 		)
