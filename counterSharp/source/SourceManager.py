@@ -6,7 +6,7 @@ import tempfile
 import pycparser
 from pycparser.c_generator import CGenerator
 
-from .Transformer import Transformer
+from .FileHandler import FileHandler
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class SourceManager:
 		self.config = config
 		self.sourceFiles = config.inputFiles
 		self.state = SMState.INIT
-		self.fileTransforms=[]
+		self.fileHandlers=[]
 		
 	
 	def parse(self):
@@ -51,15 +51,15 @@ class SourceManager:
 		generator = CGenerator()
 		for file in self.sourceFiles:
 			# TODO(steuber): Check if files exist
-			self.fileTransforms.append(Transformer(self.config, file))
+			self.fileHandlers.append(FileHandler(self.config, file))
 		self.state = SMState.PARSED
 	
 	def process(self):
 		if not self.state == SMState.PARSED:
 			raise InvalidSMStateException()
 		
-		for t in self.fileTransforms:
-			t.process()
+		for f in self.fileHandlers:
+			f.process()
 		
 		self.state = SMState.PROCESSED
 		
@@ -67,11 +67,16 @@ class SourceManager:
 	def storeTemp(self):
 		if not self.state == SMState.PROCESSED:
 			raise InvalidSMStateException()
-		
+		for f in self.fileHandlers:
+			f.storeTemp()
 		self.state = SMState.STORED
+		if self.config.debug:
+			for f in self.fileHandlers:
+				logger.debug(f.tempFileName)
 	
 	def deleteTemp(self):
 		if not self.state == SMState.STORED:
 			raise InvalidSMStateException()
-		
+		for f in self.fileHandlers:
+			f.deleteTemp()
 		self.state = SMState.DELETED

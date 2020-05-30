@@ -1,2 +1,2 @@
 from .SourceManager import SourceManager
-from .Transformer import Transformer
+from .FileHandler import FileHandler

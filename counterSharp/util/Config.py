@@ -13,7 +13,8 @@ class Config:
 		parser.add_argument('--assertMissVar', dest='assertMissVar', action='store',nargs=1,default='__counterSharp_assertMiss',required=False)
 		parser.add_argument('--assumeMissVar', dest='assumeMissVar', action='store',nargs=1,default='__counterSharp_assumeMiss',required=False)
 		parser.add_argument('--assertFunction', dest='assertFunction', action='store',nargs=1,default='__counterSharp_assert',required=False)
-		parser.add_argument('--gotoLabel', dest='gotoLabel', action='store', nargs=1, default='__counterSharp_result', required=False)
+		parser.add_argument('--assumeFunction', dest='assumeFunction', action='store',nargs=1,default='__counterSharp_assume',required=False)
+		parser.add_argument('--resultVar', dest='resultVar', action='store', nargs=1, default='__counterSharp_result', required=False)
 
 		# C Input Files
 		parser.add_argument('inputfiles', nargs='*',)
@@ -21,12 +22,13 @@ class Config:
 		args = parser.parse_args(args)
 		self.debug = args.debug
 
-		self.function = args.function
+		self.function = args.function[0]
 		
 		self.assertMissVar = args.assertMissVar
 		self.assumeMissVar = args.assumeMissVar
 		self.assertFunction = args.assertFunction
-		self.gotoLabel = args.gotoLabel
+		self.assumeFunction = args.assumeFunction
+		self.resultVar = args.resultVar
 
 		self.inputFiles = args.inputfiles
 		if self.debug:

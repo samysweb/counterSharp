@@ -53,7 +53,7 @@ class CondCheckTransformVisitorTest(TransformVisitorTest):
 	"""
 	Check Cond Transform in detail
 	"""
-	def test_correctCallResultsInDifference(self):
+	def test_correctCallDetails(self):
 		condExpr = c_ast.Constant("int",0)
 		ast = c_ast.FuncCall(
 			c_ast.ID(name=CondCheckTransformVisitorTest.FunctionIdent),

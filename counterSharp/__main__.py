@@ -4,6 +4,7 @@ import sys
 
 from .source import SourceManager
 from .util import Config
+from .cbmc import CBMCManager
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,8 @@ def main():
 	sourceManager.parse()
 	sourceManager.process()
 	sourceManager.storeTemp()
+	#cbmc = CBMCManager(sourceManager)
+	#cbmc.obtainCNF()
 	#sourceManager.delete()
 
 if __name__ == '__main__':

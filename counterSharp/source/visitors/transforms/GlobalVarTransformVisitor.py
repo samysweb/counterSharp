@@ -12,8 +12,8 @@ class GlobalVarTransformVisitor(TransformVisitor):
 			c_ast.Decl(
 				self.config.assertMissVar,
 				[], [], [],
-				c_ast.TypeDecl(self.config.assertMissVar, [], c_ast.IdentifierType(['char'])),
-				c_ast.Constant('int',"0"),
+				c_ast.TypeDecl(self.config.assertMissVar, [], c_ast.IdentifierType(['char'],coord=GlobalVarTransformVisitor.TransformCoord),coord=GlobalVarTransformVisitor.TransformCoord),
+				c_ast.Constant('int',"0",coord=GlobalVarTransformVisitor.TransformCoord),
 				None,
 				coord=GlobalVarTransformVisitor.TransformCoord)
 		)
@@ -22,8 +22,8 @@ class GlobalVarTransformVisitor(TransformVisitor):
 			c_ast.Decl(
 				self.config.assumeMissVar,
 				[], [], [],
-				c_ast.TypeDecl(self.config.assumeMissVar, [], c_ast.IdentifierType(['char'])),
-				c_ast.Constant('int',"0"),
+				c_ast.TypeDecl(self.config.assumeMissVar, [], c_ast.IdentifierType(['char'],coord=GlobalVarTransformVisitor.TransformCoord),coord=GlobalVarTransformVisitor.TransformCoord),
+				c_ast.Constant('int',"0",coord=GlobalVarTransformVisitor.TransformCoord),
 				None,
 				coord=GlobalVarTransformVisitor.TransformCoord)
 		)
