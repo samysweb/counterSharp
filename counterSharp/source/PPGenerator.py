@@ -1,3 +1,5 @@
+import re
+
 from pycparser.c_generator import CGenerator
 from pycparser import c_ast
 
@@ -17,8 +19,11 @@ class PPGenerator(CGenerator):
 				prefix = ""
 				while (pos.line >= self.lineNum):
 					curLine = self.fileHandle.readline().strip()
-					if len(curLine)>0 and curLine[0] == "#":
-						prefix+=curLine+"\n"
+					if len(curLine)>0:
+						for inc in re.finditer(r'\#include\s?[<][^>]+[>]', curLine):
+							prefix+=inc[0]+"\n"
+						for inc in re.finditer(r'\#include\s?["][^"]+["]', curLine):
+							prefix+=inc[0]+"\n"
 					self.lineNum+=1
 				return prefix+(str(super().visit(node)))
 			elif isinstance(node, c_ast.FileAST) or pos == TransformVisitor.TransformCoord:

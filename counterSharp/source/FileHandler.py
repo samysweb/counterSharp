@@ -29,9 +29,10 @@ class FileHandler:
 	def __init__(self, configParam, inputFileParam):
 		self.config = configParam
 		self.inputFile = inputFileParam
+		if not os.path.isfile(self.inputFile):
+			raise FileNotFoundError(self.inputFile)
 		includeHeaders = os.path.dirname(__file__)+"/../pycparser/fake_libc_include/"
 		self.ast = pycparser.parse_file(self.inputFile, use_cpp=True, cpp_args='-I'+includeHeaders)
-		self.ast.show(showcoord=True)
 	
 	def process(self):
 		for Transformation in FileHandler.sourceTransformations:
@@ -47,7 +48,7 @@ class FileHandler:
 	def storeTemp(self):
 		with open(self.inputFile,"r") as inputHandle:
 			generator = PPGenerator(self.inputFile, inputHandle)
-			with tempfile.NamedTemporaryFile("w", delete=False) as f:
+			with tempfile.NamedTemporaryFile("w", delete=False, suffix=".c") as f:
 				self.tempFileName = f.name
 				print(generator.visit(self.ast),file=f)
 	
