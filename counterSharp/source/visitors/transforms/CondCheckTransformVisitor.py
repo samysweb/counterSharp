@@ -57,16 +57,7 @@ class CondCheckTransformVisitor(TransformVisitor):
 				c_ast.Constant('int', 1, coord=CondCheckTransformVisitor.TransformCoord),
 				coord=CondCheckTransformVisitor.TransformCoord),
 		]
-		assertStmt = c_ast.FuncCall(
-			c_ast.ID("__CPROVER_assert", coord=CondCheckTransformVisitor.TransformCoord),
-			c_ast.ExprList(
-				[c_ast.Constant('int', "0", coord=CondCheckTransformVisitor.TransformCoord),c_ast.Constant('string', "\"\"", coord=CondCheckTransformVisitor.TransformCoord)]
-			, coord=CondCheckTransformVisitor.TransformCoord)
-			, coord=CondCheckTransformVisitor.TransformCoord)
 		if isinstance(curType, c_ast.TypeDecl) and isinstance(curType.type, c_ast.IdentifierType) and "void" in curType.type.names:
-			compoundStmts.append(
-				assertStmt
-				)
 			compoundStmts.append(c_ast.Return(None))
 		else:
 			compoundStmts.append(c_ast.Decl(
@@ -77,9 +68,6 @@ class CondCheckTransformVisitor(TransformVisitor):
 					None,
 					None,
 					coord=CondCheckTransformVisitor.TransformCoord))
-			compoundStmts.append(
-				assertStmt
-				)
 			compoundStmts.append(c_ast.Return(c_ast.ID(varName,coord=CondCheckTransformVisitor.TransformCoord),coord=CondCheckTransformVisitor.TransformCoord))
 		tCompound = c_ast.Compound(compoundStmts,coord=CondCheckTransformVisitor.TransformCoord)
 		ifStmt = c_ast.If(

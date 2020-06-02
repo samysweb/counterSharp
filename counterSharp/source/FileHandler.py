@@ -7,7 +7,7 @@ from pycparser import c_generator
 
 from .PPGenerator import PPGenerator
 from .visitors import InputFinder
-from .visitors.transforms import GlobalVarTransformVisitor, AssertTransformVisitor, AssumeTransformVisitor
+from .visitors.transforms import GlobalVarTransformVisitor, AssertTransformVisitor, AssumeTransformVisitor, ReturnTransformVisitor
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,8 @@ class FileHandler:
 	sourceTransformations = [
 		GlobalVarTransformVisitor,
 		AssertTransformVisitor,
-		AssumeTransformVisitor
+		AssumeTransformVisitor,
+		ReturnTransformVisitor
 	]
 
 	def __init__(self, configParam, inputFileParam):
