@@ -5,7 +5,7 @@
 char __counterSharp_status=0;
 
 int test(int someInput) {
-	__counterSharp_assume(someInput<100 && someInput>-100);
+	__counterSharp_assume(someInput<1024 && someInput>-1024);
     int *someMemory = malloc(sizeof(int));
     int sum = 0;
     for (int i=0; i<10; i++) {

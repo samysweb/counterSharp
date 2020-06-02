@@ -5,6 +5,7 @@ import sys
 from .source import SourceManager
 from .util import Config
 from .cbmc import CBMCManager
+from .approxmc import ApproxMCManager
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,8 @@ def main():
 	sourceManager.storeTemp()
 	cbmc = CBMCManager(config, sourceManager)
 	cbmc.run()
+	approxmc = ApproxMCManager(config, cbmc)
+	approxmc.run()
 	#cbmc.obtainCNF()
 	#sourceManager.delete()
 

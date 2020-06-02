@@ -62,6 +62,14 @@ class SourceManager:
 			f.process()
 		
 		self.state = SMState.PROCESSED
+	
+	def getInputSymbols(self):
+		if not self.state == SMState.PROCESSED and not self.state ==SMState.STORED:
+			raise InvalidSMStateException()
+		for f in self.fileHandlers:
+			if f.inputVars is not None:
+				return f.inputVars
+		return None
 		
 	
 	def storeTemp(self):

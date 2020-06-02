@@ -24,7 +24,46 @@ class CBMCManager:
 		cmd.extend(self.fileListParam)
 		curRun = subprocess.run(cmd, capture_output=True)
 		self.dimacs = curRun.stdout.decode('ascii').split("\n")
-		print(self.dimacs)
+		instanceData = self.dimacs[0].split(" ")
+		assert(instanceData[0]=="p")
+		self.dimacsVars = int(instanceData[2])
+		self.dimacsClauses = int(instanceData[3])
+		self.dimacs = self.dimacs[1:]
+		inputSymbols = self.sourceManager.getInputSymbols()
+		if inputSymbols is None:
+			raise Exception("No input variables for function found")
+		# REGEX_NORMAL_STR = R"(^c (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*) (.*)$)";
+		# REGEX_SHORT_STR = R"(^c (\d*) (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*)$)";
+		# r(^c (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*) (.*)$)
+		# function_name::[unknown::]variable_name!thread_name@rec_depth#time vars...
+		needles=[]
+		for s in inputSymbols:
+			needles.append("c "+self.config.function+"::"+s.name+"!0@1#1")
+		# NOTE(steuber): Could be optimized with some fancy string algorithm...
+		self.inputLiterals = []
+		self.assertMissLiterals = []
+		self.assumeMissLiterals = []
+		for line in self.dimacs:
+			for n in needles:
+				if line.startswith(n):
+					self.inputLiterals.extend([
+						x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
+					])
+				if line.startswith("c "+self.config.assertMissVar+"#"):
+					x = line.split(" ")[2].strip()
+					if x != "FALSE" and x != "TRUE":
+						self.assertMissLiterals.append(x)
+				if line.startswith("c "+self.config.assumeMissVar+"#"):
+					x = line.split(" ")[2].strip()
+					if x != "FALSE" and x != "TRUE":
+						self.assumeMissLiterals.append(x)
+		if len(self.inputLiterals)==0:
+			raise Exception("No unfixed input literals found in DIMACS")
+		if len(self.assertMissLiterals)==0:
+			logger.warning("No unfixed assertMiss literals found. If asserts have been defined this is worrying...")
+		if len(self.assumeMissLiterals)==0:
+			logger.warning("No unfixed assumeMiss literals found. If assumes have been defined this is worrying...")
+		
 	
 	def findUnwindDepth(self):
 		baseCmd = ["cbmc", "--verbosity", "4", "--function", self.config.function, "--no-assertions", "--no-assumptions"]
