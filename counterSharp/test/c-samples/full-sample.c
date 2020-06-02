@@ -11,6 +11,10 @@ int test(int someInput) {
     for (int i=0; i<10; i++) {
         sum+=i;
     }
+	for (int i=0; i<32; i++) {
+        sum+=i;
+    }
     __counterSharp_assert(someInput*(*someMemory)!=0);
+	__counterSharp_assert(someInput*(*someMemory)!=2);
 	return test(10);
 }

@@ -74,6 +74,14 @@ class SourceManager:
 			for f in self.fileHandlers:
 				logger.debug(f.tempFileName)
 	
+	def getTempFiles(self):
+		if not self.state == SMState.STORED:
+			raise InvalidSMStateException()
+		res = []
+		for f in self.fileHandlers:
+			res.append(f.tempFileName)
+		return res
+	
 	def deleteTemp(self):
 		if not self.state == SMState.STORED:
 			raise InvalidSMStateException()

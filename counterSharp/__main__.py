@@ -14,7 +14,8 @@ def main():
 	sourceManager.parse()
 	sourceManager.process()
 	sourceManager.storeTemp()
-	#cbmc = CBMCManager(sourceManager)
+	cbmc = CBMCManager(config, sourceManager)
+	cbmc.run()
 	#cbmc.obtainCNF()
 	#sourceManager.delete()
 

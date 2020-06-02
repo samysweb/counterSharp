@@ -15,6 +15,7 @@ class Config:
 		parser.add_argument('--assertFunction', dest='assertFunction', action='store',nargs=1,default='__counterSharp_assert',required=False)
 		parser.add_argument('--assumeFunction', dest='assumeFunction', action='store',nargs=1,default='__counterSharp_assume',required=False)
 		parser.add_argument('--resultVar', dest='resultVar', action='store', nargs=1, default='__counterSharp_result', required=False)
+		parser.add_argument('--cbmcArg', dest='cbmcArgs', action='append', required=False)
 
 		# C Input Files
 		parser.add_argument('inputfiles', nargs='*',)
@@ -29,6 +30,7 @@ class Config:
 		self.assertFunction = args.assertFunction
 		self.assumeFunction = args.assumeFunction
 		self.resultVar = args.resultVar
+		self.cbmcArgs = args.cbmcArgs if args.cbmcArgs is not None else []
 
 		self.inputFiles = args.inputfiles
 		if self.debug:
