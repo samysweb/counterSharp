@@ -4,7 +4,7 @@
 
 char __counterSharp_status=0;
 
-int test(int someInput) {
+void test(int someInput) {
 	__counterSharp_assume(someInput<100 && someInput>-100);
     int *someMemory = malloc(sizeof(int));
     int sum = 0;
@@ -16,9 +16,4 @@ int test(int someInput) {
     }
     __counterSharp_assert(someInput*(*someMemory)!=0);
 	__counterSharp_assert(someInput*(*someMemory)!=2);
-	if (someMemory==20) {
-		return 19;
-	} else {
-		return 10;
-	}
 }

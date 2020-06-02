@@ -14,7 +14,7 @@ class Config:
 		parser.add_argument('--assumeMissVar', dest='assumeMissVar', action='store',nargs=1,default='__counterSharp_assumeMiss',required=False)
 		parser.add_argument('--assertFunction', dest='assertFunction', action='store',nargs=1,default='__counterSharp_assert',required=False)
 		parser.add_argument('--assumeFunction', dest='assumeFunction', action='store',nargs=1,default='__counterSharp_assume',required=False)
-		parser.add_argument('--resultVar', dest='resultVar', action='store', nargs=1, default='__counterSharp_result', required=False)
+		parser.add_argument('--returnLabel', dest='returnLabel', action='store', nargs=1, default='__counterSharp_end', required=False)
 		parser.add_argument('--cbmcArg', dest='cbmcArgs', action='append', required=False)
 
 		# C Input Files
@@ -29,7 +29,7 @@ class Config:
 		self.assumeMissVar = args.assumeMissVar
 		self.assertFunction = args.assertFunction
 		self.assumeFunction = args.assumeFunction
-		self.resultVar = args.resultVar
+		self.returnLabel = args.returnLabel
 		self.cbmcArgs = args.cbmcArgs if args.cbmcArgs is not None else []
 
 		self.inputFiles = args.inputfiles
