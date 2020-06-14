@@ -5,6 +5,12 @@ import logging
 class Config:
 	def __init__(self, args):
 		parser = argparse.ArgumentParser()
+
+		parser.add_argument('--amm', dest='assumeMissFile', action='store', required=True,help="Name of the assume miss dimacs file")
+		parser.add_argument('--amh', dest='assumeHitFile', action='store', required=True,help="Name of the assume hit dimacs file")
+		parser.add_argument('--asm', dest='assertMissFile', action='store', required=True,help="Name of the assert miss dimacs file")
+		parser.add_argument('--ash', dest='assertHitFile', action='store', required=True,help="Name of the assert hit dimacs file")
+
 		# Debug flag
 		parser.add_argument('-d', dest='debug', action='store_true')
 		# Function to parse
@@ -21,6 +27,11 @@ class Config:
 		parser.add_argument('inputfiles', nargs='*',)
 		
 		args = parser.parse_args(args)
+		self.assumeMissFile = args.assumeMissFile
+		self.assumeHitFile = args.assumeHitFile
+		self.assertMissFile = args.assertMissFile
+		self.assertHitFile = args.assertHitFile
+
 		self.debug = args.debug
 
 		self.function = args.function[0]
