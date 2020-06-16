@@ -19,7 +19,7 @@ def main():
 	cbmc.run()
 	approxmc = ApproxMCManager(config, cbmc)
 	approxmc.run()
-	#cbmc.obtainCNF()
+	# TODO(steuber): Reactivate this...
 	#sourceManager.delete()
 
 if __name__ == '__main__':

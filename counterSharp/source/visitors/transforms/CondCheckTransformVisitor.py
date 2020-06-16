@@ -28,9 +28,13 @@ class CondCheckTransformVisitor(TransformVisitor):
 		# Node is a condition check
 		parent = parents[-1]
 		if not isinstance(parent, c_ast.Compound)\
-			and not isinstance(parent, c_ast.Case)\
+			and (not isinstance(parent, c_ast.Case) or parent.expr==node)\
 			and not isinstance(parent, c_ast.Default)\
-			and not isinstance(parent, c_ast.Label):
+			and not isinstance(parent, c_ast.Label)\
+			and (not isinstance(parent, c_ast.While) or parent.stmt!=node)\
+			and (not isinstance(parent, c_ast.For) or parent.stmt!=node)\
+			and (not isinstance(parent, c_ast.DoWhile) or parent.stmt!=node)\
+			and (not isinstance(parent, c_ast.If) or (parent.iftrue!=node and parent.iffalse!=node)):
 			# Invalid positioning for condition check
 			raise TransformationException("Call to %s cannot be used as expression!" % (self.functionIdentifier), node.coord)
 		if node.args is None or node.args.exprs is None:
