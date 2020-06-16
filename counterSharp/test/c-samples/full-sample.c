@@ -4,6 +4,13 @@
 
 char __counterSharp_status=0;
 
+int test2(int sum) {
+	for (int i=0; i<32; i++) {
+        sum+=i;
+    }
+	return sum;
+}
+
 int test(int someInput) {
 	__counterSharp_assume(someInput<1024 && someInput>-1024);
     int *someMemory = malloc(sizeof(int));
@@ -11,9 +18,7 @@ int test(int someInput) {
     for (int i=0; i<10; i++) {
         sum+=i;
     }
-	for (int i=0; i<32; i++) {
-        sum+=i;
-    }
+	sum = test2(sum);
     __counterSharp_assert(someInput*(*someMemory)!=0);
 	__counterSharp_assert(someInput*(*someMemory)!=2);
 	if (someMemory==20) {
