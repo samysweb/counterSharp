@@ -19,53 +19,45 @@ class CBMCManager:
 		self.exportDimacs()
 	
 	def exportDimacs(self):
-		cmd = ["cbmc", "--verbosity", "0", "--function", self.config.function, "--dimacs", "--unwind", str(self.genericUnwindDepth)] + self.getSpecificUnwind()
+		cmd = ["cbmc", "--verbosity", "4", "--function", self.config.function, "--dimacs", "--unwind", str(self.genericUnwindDepth)] + self.getSpecificUnwind()
 		cmd.extend(self.config.cbmcArgs)
-		cmd.extend(self.fileListParam)
-		curRun = subprocess.run(cmd, capture_output=True)
-		self.dimacs = curRun.stdout.decode('ascii').split("\n")
-		instanceData = self.dimacs[0].split(" ")
-		assert(instanceData[0]=="p")
-		self.dimacsVars = int(instanceData[2])
-		self.dimacsClauses = int(instanceData[3])
-		self.dimacs = self.dimacs[1:]
 		inputSymbols = self.sourceManager.getInputSymbols()
-		if inputSymbols is None:
-			raise Exception("No input variables for function found")
-		# REGEX_NORMAL_STR = R"(^c (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*) (.*)$)";
-		# REGEX_SHORT_STR = R"(^c (\d*) (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*)$)";
-		# r(^c (c::)?(.*?)::(.*?)::(.*?)!(\d*)@(\d*)#(\d*) (.*)$)
-		# function_name::[unknown::]variable_name!thread_name@rec_depth#time vars...
+		# NOTE(steuber): The following could be optimized with some fancy string algorithm probably...
 		needles=[]
 		for s in inputSymbols:
 			needles.append("c "+self.config.function+"::"+s.name+"!0@1#1")
-		# NOTE(steuber): Could be optimized with some fancy string algorithm...
-		self.inputLiterals = []
-		self.assertMissLiterals = []
-		self.assumeMissLiterals = []
-		for line in self.dimacs:
-			for n in needles:
-				if line.startswith(n):
-					self.inputLiterals.extend([
-						x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
-					])
-				if line.startswith("c "+self.config.assertMissVar+"#"):
-					x = line.split(" ")[2].strip()
-					if x != "FALSE" and x != "TRUE":
-						self.assertMissLiterals.append(x)
-				if line.startswith("c "+self.config.assumeMissVar+"#"):
-					x = line.split(" ")[2].strip()
-					if x != "FALSE" and x != "TRUE":
-						self.assumeMissLiterals.append(x)
-		if len(self.inputLiterals)==0:
-			raise Exception("No unfixed input literals found in DIMACS")
-		if len(self.assertMissLiterals)==0:
-			logger.warning("No unfixed assertMiss literals found. If asserts have been defined this is worrying...")
-		if len(self.assumeMissLiterals)==0:
-			logger.warning("No unfixed assumeMiss literals found. If assumes have been defined this is worrying...")
+		
+		if inputSymbols is None:
+		 	raise Exception("No input variables for function found")
+		for i in range(0,len(self.config.computeOutputs)):
+			curCmd = cmd + ["--property", self.config.function+".assertion."+str(i+1)] + self.fileListParam
+			logger.debug(" ".join(curCmd))
+			curRun = subprocess.run(curCmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			if curRun.returncode != 0:
+				logger.warning("CBMC CALL FAILED:")
+				logger.warning(curRun.stderr.decode('ascii'))
+			stdout = curRun.stdout.decode('ascii').split("\n")
+			if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
+				logger.info("Did not write file %s: State not reachable"%(self.config.computeOutputs[i][2]))
+				continue
+			stdout = stdout[1:]
+			inputLiterals = []
+			for line in stdout[1:]:
+				for n in needles:
+					if line.startswith(n):
+						inputLiterals.extend([
+							x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
+						])
+			with open(self.config.computeOutputs[i][2],"w") as outputF:
+				print("c ind "+(" ".join(inputLiterals))+" 0",file=outputF)
+				for line in stdout:
+					print(line,file=outputF)
 		
 	
 	def findUnwindDepth(self):
+		if self.config.unwindDepth != -1:
+			self.genericUnwindDepth = self.config.unwindDepth
+			return
 		baseCmd = ["cbmc", "--verbosity", "4", "--function", self.config.function, "--no-assertions", "--no-assumptions"]
 		maxVal = self.genericUnwindDepth
 		while True:
@@ -101,10 +93,15 @@ class CBMCManager:
 	def getSpecificUnwind(self):
 		res = ["--unwindset"]
 		param2=[]
+		returnRes = False
 		for loopIdent, val in self.specificUnwindDepth.items():
 			param2.append(loopIdent+":"+str(val))
+			returnRes = True
 		res.append(",".join(param2))
-		return res
+		if returnRes:
+			return res
+		else:
+			return []
 			
 
 	# Unwinding till bound assertion fulfilled:

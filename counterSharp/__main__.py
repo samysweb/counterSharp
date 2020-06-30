@@ -17,8 +17,8 @@ def main():
 	sourceManager.storeTemp()
 	cbmc = CBMCManager(config, sourceManager)
 	cbmc.run()
-	approxmc = ApproxMCManager(config, cbmc)
-	approxmc.run()
+	# approxmc = ApproxMCManager(config, cbmc)
+	# approxmc.run()
 	# TODO(steuber): Reactivate this...
 	#sourceManager.delete()
 

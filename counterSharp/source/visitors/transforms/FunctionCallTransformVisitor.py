@@ -120,7 +120,8 @@ class FuncCallFinderVisitor(c_ast.NodeVisitor):
 		self.argumentChecker = ArgumentCheckerVisitor()
 
 	def visit_FuncCall(self, node):
-		self.argumentChecker.visit(node.args)
+		if node.args is not None:
+			self.argumentChecker.visit(node.args)
 		return True
 
 	def visit_Compound(self, node):

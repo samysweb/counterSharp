@@ -24,8 +24,8 @@ class FileHandler:
 		GlobalVarTransformVisitor,
 		AssertTransformVisitor,
 		AssumeTransformVisitor,
-		ReturnTransformVisitor,
-		FunctionCallTransformVisitor
+		FunctionCallTransformVisitor,
+		ReturnTransformVisitor
 	]
 
 	def __init__(self, configParam, inputFileParam):

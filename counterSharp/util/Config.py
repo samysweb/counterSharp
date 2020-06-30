@@ -22,26 +22,32 @@ class Config:
 		parser.add_argument('--assumeFunction', dest='assumeFunction', action='store',nargs=1,default='__counterSharp_assume',required=False)
 		parser.add_argument('--returnLabel', dest='returnLabel', action='store', nargs=1, default='__counterSharp_end', required=False)
 		parser.add_argument('--cbmcArg', dest='cbmcArgs', action='append', required=False)
+		parser.add_argument('--unwindDepth', dest='unwindDepth', action='store', required=False)
 
 		# C Input Files
 		parser.add_argument('inputfiles', nargs='*',)
 		
 		args = parser.parse_args(args)
-		self.assumeMissFile = args.assumeMissFile
-		self.assumeHitFile = args.assumeHitFile
-		self.assertMissFile = args.assertMissFile
-		self.assertHitFile = args.assertHitFile
 
 		self.debug = args.debug
 
 		self.function = args.function[0]
-		
+		# TODO(steuber): Make configurable
+		self.returnVal = "__counterSharp_returnVal"
 		self.assertMissVar = args.assertMissVar
 		self.assumeMissVar = args.assumeMissVar
 		self.assertFunction = args.assertFunction
 		self.assumeFunction = args.assumeFunction
 		self.returnLabel = args.returnLabel
 		self.cbmcArgs = args.cbmcArgs if args.cbmcArgs is not None else []
+		self.unwindDepth = args.unwindDepth if args.unwindDepth is not None else -1
+
+		# Properties for which DIMACS files should be computed
+		self.computeOutputs = []
+		self.computeOutputs.append((self.assertMissVar, "0", args.assertHitFile))
+		self.computeOutputs.append((self.assertMissVar, "1", args.assertMissFile))
+		self.computeOutputs.append((self.assumeMissVar, "0", args.assumeHitFile))
+		self.computeOutputs.append((self.assumeMissVar, "1", args.assumeMissFile))
 
 		self.inputFiles = args.inputfiles
 		if self.debug:
