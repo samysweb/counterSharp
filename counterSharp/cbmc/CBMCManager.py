@@ -40,7 +40,6 @@ class CBMCManager:
 			if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
 				logger.info("Did not write file %s: State not reachable"%(self.config.computeOutputs[i][2]))
 				continue
-			stdout = stdout[1:]
 			inputLiterals = []
 			for line in stdout[1:]:
 				for n in needles:
