@@ -12,15 +12,15 @@ int test2(int sum) {
 }
 
 int test(int someInput) {
-	__counterSharp_assume(someInput<1024 && someInput>-1024);
-    int *someMemory = malloc(sizeof(int));
+	int *someMemory = malloc(sizeof(int));
     int sum = 0;
     for (int i=0; i<10; i++) {
         sum+=i;
     }
 	sum = test2(sum);
-    __counterSharp_assert(someInput*(*someMemory)!=0);
-	__counterSharp_assert(someInput*(*someMemory)!=2);
+	__counterSharp_assert(someInput!=1);
+    //__counterSharp_assert(someInput>1024 || someInput<-1024);
+	//__counterSharp_assert(someInput*(*someMemory)!=0);
 	if (someMemory==20) {
 		return 19;
 	} else {

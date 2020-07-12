@@ -44,10 +44,10 @@ class Config:
 
 		# Properties for which DIMACS files should be computed
 		self.computeOutputs = []
-		self.computeOutputs.append((self.assertMissVar, "0", args.assertHitFile))
-		self.computeOutputs.append((self.assertMissVar, "1", args.assertMissFile))
-		self.computeOutputs.append((self.assumeMissVar, "0", args.assumeHitFile))
-		self.computeOutputs.append((self.assumeMissVar, "1", args.assumeMissFile))
+		self.computeOutputs.append(([(self.assertMissVar, "0"),(self.assumeMissVar, "0",)], args.assertHitFile))
+		self.computeOutputs.append(([(self.assertMissVar, "1"),(self.assumeMissVar, "0",)], args.assertMissFile))
+		self.computeOutputs.append(([(self.assumeMissVar, "0")], args.assumeHitFile))
+		self.computeOutputs.append(([(self.assumeMissVar, "1")], args.assumeMissFile))
 
 		self.inputFiles = args.inputfiles
 		if self.debug:

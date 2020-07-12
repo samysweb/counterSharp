@@ -38,7 +38,7 @@ class CBMCManager:
 				logger.warning(curRun.stderr.decode('ascii'))
 			stdout = curRun.stdout.decode('ascii').split("\n")
 			if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
-				logger.info("Did not write file %s: State not reachable"%(self.config.computeOutputs[i][2]))
+				logger.info("Did not write file %s: State not reachable"%(self.config.computeOutputs[i][1]))
 				continue
 			inputLiterals = []
 			for line in stdout[1:]:
@@ -47,7 +47,7 @@ class CBMCManager:
 						inputLiterals.extend([
 							x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
 						])
-			with open(self.config.computeOutputs[i][2],"w") as outputF:
+			with open(self.config.computeOutputs[i][1],"w") as outputF:
 				print("c ind "+(" ".join(inputLiterals))+" 0",file=outputF)
 				for line in stdout:
 					print(line,file=outputF)

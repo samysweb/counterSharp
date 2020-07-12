@@ -89,20 +89,30 @@ class ReturnStmtTransformVisitor(TransformVisitor):
 			stmtListOuter.append(c_ast.Goto(name=self.config.returnLabel,coord=ReturnStmtTransformVisitor.TransformCoord))
 			return c_ast.Compound(stmtListOuter, coord=ReturnStmtTransformVisitor.TransformCoord)
 
-def assertStatementBuilder(varName, value,coord):
+def assertStatementBuilder(assertions,coord):
+	varName, value = assertions[0]
+	expr = c_ast.BinaryOp("!=",
+			c_ast.ID(name=varName,coord=coord),
+			c_ast.Constant('int', value, coord=coord)
+			, coord=coord)
+	for varName, value in assertions[1:]:
+		expr = c_ast.BinaryOp("||",
+			expr,
+			c_ast.BinaryOp("!=",
+			c_ast.ID(name=varName,coord=coord),
+			c_ast.Constant('int', value, coord=coord)
+			, coord=coord), coord=coord)
 	return c_ast.FuncCall(
-			c_ast.ID("__CPROVER_assert", coord=coord),
-			c_ast.ExprList(
-				[c_ast.BinaryOp("!=",
-					c_ast.ID(name=varName,coord=coord),
-					c_ast.Constant('int', value, coord=coord)
-					, coord=coord),
-				c_ast.Constant('string', "\"\"", coord=coord)]
-			, coord=coord)
-			, coord=coord)
+		c_ast.ID("__CPROVER_assert", coord=coord),
+		c_ast.ExprList(
+			[expr,
+			c_ast.Constant('string', "\"\"", coord=coord)]
+		, coord=coord)
+		, coord=coord)
+
 
 def assertStatementSequence(config,coord):
 	res = []
-	for var, val, _ in config.computeOutputs:
-		res.append(assertStatementBuilder(var,val,coord))
+	for assertions in config.computeOutputs:
+		res.append(assertStatementBuilder(assertions[0],coord))
 	return res
