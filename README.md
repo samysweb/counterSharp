@@ -11,26 +11,28 @@ Run counterSharp as:
 ```
 python -m counterSharp -amm <assume miss dimacs> --amh <assume hit dimacs> --asm <assert miss dimacs> --ash <assert hit dimacs> <inputfiles...>
 ```
+
 counterSharp will read and transform the input files and use CBMC to produce 4 dimacs files on which model counting can be applied by tools like ApproxMC.
 
 ## Additional Paramters
 Frequently helpful:
-```
--h, --help	Show help message and exit
--d	Debug Mode (more output)
---function <fun>	Name of the function to be analyze
---cbmcArg <args>	Additional input paramters for CBMC
---unwindDepth <depth>	The unwind depth of CBMC
-						(otherwise found through iteration)
-```
+Parameter | Description
+---|---
+`-h, --help` | Show help message and exit
+`-d` | Debug Mode (more output)
+`--function <fun>` | Name of the function to be analyze
+`--cbmcArg <args>` | Additional input paramters for CBMC
+`--unwindDepth <depth>` | The unwind depth of CBMC (otherwise found through iteration over depths)
+
 The default for `--function` is main. Splicing must explictly be activated for CBMC.
 
 Less frequently helpful:
-```
---assertMissVar <name>	Name of the assert miss state variable
---assumeMissVar <name>	Name of the assume miss state variable
---assertFunction <name>	Name of the assert function
---assumeFunction <name>	Name of the assume function
---returnLabel <name>	Name of the return label
-```
+Parameter | Description
+---|---
+`--assertMissVar <name>` | Name of the assert miss state variable
+`--assumeMissVar <name>` | Name of the assume miss state variable
+`--assertFunction <name>` | Name of the assert function
+`--assumeFunction <name>` | Name of the assume function
+`--returnLabel <name>` | Name of the return label
+
 All these are set to default values which are unlikely to clash with your code unless you use variables/functions/labels which begin with `__counterSharp_`
