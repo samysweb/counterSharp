@@ -16,10 +16,10 @@ counterSharp will read and transform the input files and use CBMC to produce 4 d
 ## Additional Paramters
 Frequently helpful:
 ```
--h, --help				Show help message and exit
--d						Debug Mode (more output)
---function <fun>		Name of the function to be analyze
---cbmcArg <args>		Additional input paramters for CBMC
+-h, --help	Show help message and exit
+-d	Debug Mode (more output)
+--function <fun>	Name of the function to be analyze
+--cbmcArg <args>	Additional input paramters for CBMC
 --unwindDepth <depth>	The unwind depth of CBMC
 						(otherwise found through iteration)
 ```
