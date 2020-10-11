@@ -10,6 +10,7 @@ class Config:
 		parser.add_argument('--amh', dest='assumeHitFile', action='store', required=True,help="Name of the assume hit dimacs file")
 		parser.add_argument('--asm', dest='assertMissFile', action='store', required=True,help="Name of the assert miss dimacs file")
 		parser.add_argument('--ash', dest='assertHitFile', action='store', required=True,help="Name of the assert hit dimacs file")
+		parser.add_argument('--con', dest='confidenceFile', action='store', required=True,help="Name of the confidence file (counts the number of inputs missing the bounds")
 
 		# Debug flag
 		parser.add_argument('-d', dest='debug', action='store_true')
@@ -48,6 +49,7 @@ class Config:
 		self.computeOutputs.append(([(self.assertMissVar, "1"),(self.assumeMissVar, "0",)], args.assertMissFile))
 		self.computeOutputs.append(([(self.assumeMissVar, "0")], args.assumeHitFile))
 		self.computeOutputs.append(([(self.assumeMissVar, "1")], args.assumeMissFile))
+		self.confidenceFile = args.confidenceFile
 
 		self.inputFiles = args.inputfiles
 		if self.debug:

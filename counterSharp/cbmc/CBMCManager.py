@@ -29,28 +29,43 @@ class CBMCManager:
 		
 		if inputSymbols is None:
 		 	raise Exception("No input variables for function found")
+		# confidence
+		curCmd = cmd + ["--no-assertions", "--no-assumptions", "--unwinding-assertions"]  + self.fileListParam
+		stdout = self.runCbmc(curCmd)
+		self.writeCnfFile(stdout, needles, self.config.confidenceFile)
+		# assume/assert hit/miss
 		for i in range(0,len(self.config.computeOutputs)):
 			curCmd = cmd + ["--property", self.config.function+".assertion."+str(i+1)] + self.fileListParam
-			logger.debug(" ".join(curCmd))
-			curRun = subprocess.run(curCmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			if curRun.returncode != 0:
-				logger.warning("CBMC CALL FAILED:")
-				logger.warning(curRun.stderr.decode('ascii'))
-			stdout = curRun.stdout.decode('ascii').split("\n")
-			if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
-				logger.info("Did not write file %s: State not reachable"%(self.config.computeOutputs[i][1]))
-				continue
-			inputLiterals = []
-			for line in stdout[1:]:
-				for n in needles:
-					if line.startswith(n):
-						inputLiterals.extend([
-							x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
-						])
-			with open(self.config.computeOutputs[i][1],"w") as outputF:
-				print("c ind "+(" ".join(inputLiterals))+" 0",file=outputF)
-				for line in stdout:
-					print(line,file=outputF)
+			stdout = self.runCbmc(curCmd)
+			self.writeCnfFile(stdout, needles, self.config.computeOutputs[i][1])
+			
+		
+	def runCbmc(self, cmd):
+		logger.debug(" ".join(cmd))
+		curRun = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		if curRun.returncode != 0:
+			logger.warning("CBMC CALL FAILED:")
+			logger.warning(curRun.stderr.decode('ascii'))
+		stdout = curRun.stdout.decode('ascii').split("\n")
+		if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
+			return None
+		return stdout
+	
+	def writeCnfFile(self, stdout, inputNeedles, outputFile):
+		if stdout is None:
+			logger.info("Did not write file %s: State not reachable"%(outputFile))
+			return
+		inputLiterals = []
+		for line in stdout[1:]:
+			for n in inputNeedles:
+				if line.startswith(n):
+					inputLiterals.extend([
+						x.strip() for x in line.split(" ")[2:] if x != "FALSE" and x != "TRUE"
+					])
+		with open(outputFile,"w") as outputF:
+			print("c ind "+(" ".join(inputLiterals))+" 0",file=outputF)
+			for line in stdout:
+				print(line,file=outputF)
 		
 	
 	def findUnwindDepth(self):
