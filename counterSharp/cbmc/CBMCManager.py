@@ -19,13 +19,13 @@ class CBMCManager:
 		self.exportDimacs()
 	
 	def exportDimacs(self):
-		cmd = ["cbmc", "--verbosity", "4", "--function", self.config.function, "--dimacs", "--unwind", str(self.genericUnwindDepth)] + self.getSpecificUnwind()
+		cmd = ["cbmc", "--verbosity", "4", "--function", self.config.function, "--dimacs", "--slice-formula", "--unwind", str(self.genericUnwindDepth)] + self.getSpecificUnwind()
 		cmd.extend(self.config.cbmcArgs)
 		inputSymbols = self.sourceManager.getInputSymbols()
 		# NOTE(steuber): The following could be optimized with some fancy string algorithm probably...
 		needles=[]
 		for s in inputSymbols:
-			needles.append("c "+self.config.function+"::"+s.name+"!0@1#1")
+			needles.append("c "+self.config.function+"::"+s.name+"!0@1#1 ")
 		
 		if inputSymbols is None:
 		 	raise Exception("No input variables for function found")
