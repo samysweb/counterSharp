@@ -52,8 +52,8 @@ class CBMCManager:
 		logger.debug(" ".join(cmd))
 		curRun = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		self.curProcess = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		returncode = self.curProcess.wait()
 		stdoutData, stderrData = self.curProcess.communicate()
+		returncode = self.curProcess.wait()
 		self.curProcess = None
 		if curRun.returncode != 0:
 			logger.warning("CBMC CALL FAILED:")
