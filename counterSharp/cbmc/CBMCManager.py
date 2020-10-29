@@ -1,6 +1,7 @@
 import subprocess
 import re
 import logging
+import signal
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,13 @@ class CBMCManager:
 		self.config = configParam
 		self.genericUnwindDepth = CBMCManager.UnwindStartVal
 		self.specificUnwindDepth = {}
+
+		signal.signal(signal.SIGINT, self.exit_gracefully)
+		signal.signal(signal.SIGTERM, self.exit_gracefully)
+	
+	def exit_gracefully(self):
+		if self.curProcess is not None:
+			self.curProcess.kill()
 	
 	def run(self):
 		self.findUnwindDepth()
@@ -43,10 +51,14 @@ class CBMCManager:
 	def runCbmc(self, cmd):
 		logger.debug(" ".join(cmd))
 		curRun = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		self.curProcess = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		returncode = self.curProcess.wait()
+		stdoutData, stderrData = self.curProcess.communicate()
+		self.curProcess = None
 		if curRun.returncode != 0:
 			logger.warning("CBMC CALL FAILED:")
-			logger.warning(curRun.stderr.decode('ascii'))
-		stdout = curRun.stdout.decode('ascii').split("\n")
+			logger.warning(stderrData.decode('ascii'))
+		stdout = stdoutData.decode('ascii').split("\n")
 		if stdout[0].strip().startswith("VERIFICATION SUCCESSFUL"):
 			return None
 		return stdout
