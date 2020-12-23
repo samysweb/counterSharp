@@ -1,10 +1,11 @@
 # counterSharp
-Quantification of software properties through Model Counting: We use [CBMC](http://www.cprover.org/cbmc/) to transform C-code into SAT instances and then run approximate model counting (e.g. [ApproxMC](https://github.com/meelgroup/ApproxMC)) on those instances.
+A tool allowing the quantification of software properties through Model Counting: We use [CBMC](http://www.cprover.org/cbmc/) to transform C-code into SAT instances and then run (approximate) model counting (e.g. [ApproxMC](https://github.com/meelgroup/ApproxMC)) on those instances.
 
 ## Installation
-- Tested with Python 3.8
+- Tested with Python 3.8 and CBMC 5.11
 - Expects CBMC and cpp (C preprocessing) to be in PATH
 - Expects `requirements.txt` to be installed through pip (specifically we are using [pycparser](https://github.com/eliben/pycparser))
+- Alternatively available in a [Docker Container](#Docker-Guide)
 
 ## Usage
 Run counterSharp as:
@@ -36,3 +37,9 @@ Parameter | Description
 `--returnLabel <name>` | Name of the return label
 
 All these are set to default values which are unlikely to clash with your code unless you use variables/functions/labels which begin with `__counterSharp_`
+
+## Docker Guide
+
+
+## Why counterSharp?
+> counterSharp counts (thus sharp/#) counterexamples (thus counter) for a given specification.
