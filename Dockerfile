@@ -16,6 +16,10 @@ COPY . .
 ENV PYTHONPATH="${PYTHONPATH}:/usr/src/app"
 ENV PATH="${PATH}:/cbmc"
 
+RUN mkdir -p /pwd
+
+WORKDIR /pwd
+
 ENTRYPOINT [ "python", "-m", "counterSharp" ]
 
 # TODO(steuber): Jetzt doch __CPROVER_start???

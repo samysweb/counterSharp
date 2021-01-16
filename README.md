@@ -39,7 +39,9 @@ Parameter | Description
 All these are set to default values which are unlikely to clash with your code unless you use variables/functions/labels which begin with `__counterSharp_`
 
 ## Docker Guide
+We provide a Docker image which can be used to execute counterSharp...
 
+TODO
 
 ## Why counterSharp?
 > counterSharp counts (thus sharp/#) counterexamples (thus counter) for a given specification.
