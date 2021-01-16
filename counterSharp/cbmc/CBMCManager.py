@@ -33,7 +33,9 @@ class CBMCManager:
 		# NOTE(steuber): The following could be optimized with some fancy string algorithm probably...
 		needles=[]
 		for s in inputSymbols:
-			needles.append("c "+self.config.function+"::"+s.name+"!0@1#1 ")
+			#"c __CPROVER__start::i!0#2 ""
+			needles.append("c __CPROVER__start::"+s.name+"!0#2 ")
+			#needles.append("c "+self.config.function+"::"+s.name+"!0@1#1 ")
 		
 		if inputSymbols is None:
 		 	raise Exception("No input variables for function found")
