@@ -5,7 +5,6 @@ A tool allowing the quantification of software properties through Model Counting
 - Tested with Python 3.8 and CBMC 5.11
 - Expects CBMC and cpp (C preprocessing) to be in PATH
 - Expects `requirements.txt` to be installed through pip (specifically we are using [pycparser](https://github.com/eliben/pycparser))
-- Alternatively available in a [Docker Container](#Docker-Guide)
 
 ## Usage
 Run counterSharp as:
