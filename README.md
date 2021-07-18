@@ -1,6 +1,9 @@
 # counterSharp
 A tool allowing the quantification of software properties through Model Counting: We use [CBMC](http://www.cprover.org/cbmc/) to transform C-code into SAT instances and then run (approximate) model counting (e.g. [ApproxMC](https://github.com/meelgroup/ApproxMC)) on those instances.
 
+This work was publised by Samuel Teuber and Alexander Weigl at QEST 2021 ([BibTeX](https://teuber.dev/publication/countersharp2021/cite.bib)).  
+The experimental setup and results can be found in [this repository](https://github.com/samysweb/counterSharp-experiments) or [this evaluated artifact](https://publikationen.bibliothek.kit.edu/1000134169).
+
 ## Installation
 - Tested with Python 3.8 and CBMC 5.11
 - Expects CBMC and cpp (C preprocessing) to be in PATH
