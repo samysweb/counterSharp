@@ -5,14 +5,14 @@ import signal
 
 logger = logging.getLogger(__name__)
 
-class CBMCManager:
+class CbmcManager:
 	UnwindStartVal = 2
 
 	def __init__(self, configParam, sourceManagerParam):
 		self.sourceManager = sourceManagerParam
 		self.fileListParam = self.sourceManager.getTempFiles()
 		self.config = configParam
-		self.genericUnwindDepth = CBMCManager.UnwindStartVal
+		self.genericUnwindDepth = CbmcManager.UnwindStartVal
 		self.specificUnwindDepth = {}
 
 		signal.signal(signal.SIGINT, self.exit_gracefully)

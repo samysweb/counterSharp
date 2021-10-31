@@ -11,9 +11,10 @@ class Config:
 		parser.add_argument('--asm', dest='assertMissFile', action='store', required=True,help="Name of the assert miss dimacs file")
 		parser.add_argument('--ash', dest='assertHitFile', action='store', required=True,help="Name of the assert hit dimacs file")
 		parser.add_argument('--con', dest='confidenceFile', action='store', required=True,help="Name of the confidence file (counts the number of inputs missing the bounds")
+		parser.add_argument('--smt2', dest='smt', action='store_true', required=False,help="Resulting files will not be in DIMACS but in (custom) SMT-LIB2 format (see README)")
 
 		# Debug flag
-		parser.add_argument('-d', dest='debug', action='store_true')
+		parser.add_argument('-d', dest='debug', action='store_true', help="Debug")
 		# Function to parse
 		parser.add_argument('--function', dest='function',action='store',nargs=1,default='main',required=False)
 		# Name of internal assume and assert variables
@@ -31,6 +32,7 @@ class Config:
 		args = parser.parse_args(args)
 
 		self.debug = args.debug
+		self.smt = args.smt
 
 		self.function = args.function[0]
 		# TODO(steuber): Make configurable

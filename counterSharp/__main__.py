@@ -4,7 +4,7 @@ import sys
 
 from .source import SourceManager
 from .util import Config
-from .cbmc import CBMCManager
+from .cbmc import CbmcManager, CbmcToSmtManager
 from .approxmc import ApproxMCManager
 
 logger = logging.getLogger(__name__)
@@ -15,7 +15,10 @@ def main():
 	sourceManager.parse()
 	sourceManager.process()
 	sourceManager.storeTemp()
-	cbmc = CBMCManager(config, sourceManager)
+	if config.smt:
+		cbmc = CbmcToSmtManager(config, sourceManager)
+	else:
+		cbmc = CbmcManager(config, sourceManager)
 	cbmc.run()
 	# approxmc = ApproxMCManager(config, cbmc)
 	# approxmc.run()
