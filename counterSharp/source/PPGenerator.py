@@ -15,7 +15,8 @@ class PPGenerator(CGenerator):
 	def visit(self, node):
 		if node is not None:
 			pos = node.coord
-			if pos is not None and pos.file == self.name:
+			if pos is not None and not "pycparser/fake_libc_include" in pos.file:
+				# Omit content from global inclusions
 				prefix = ""
 				while (pos.line >= self.lineNum):
 					curLine = self.fileHandle.readline().strip()
@@ -23,7 +24,8 @@ class PPGenerator(CGenerator):
 						for inc in re.finditer(r'\#include\s?[<][^>]+[>]', curLine):
 							prefix+=inc[0]+"\n"
 						for inc in re.finditer(r'\#include\s?["][^"]+["]', curLine):
-							prefix+=inc[0]+"\n"
+							print("WARNING: Local inclusions are only supported if all global inclusions are in the main file!")
+							prefix+="\n" # We keep the inclusion of local files
 					self.lineNum+=1
 				return prefix+(str(super().visit(node)))
 			elif isinstance(node, c_ast.FileAST) or pos == TransformVisitor.TransformCoord:
